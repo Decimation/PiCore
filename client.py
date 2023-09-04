@@ -2,11 +2,14 @@ import requests
 
 # Copy-Item .\client.py C:\Users\Deci\Desktop\RPi\ -Force
 
-server_url = 'http://192.168.1.79:5003'
+REMOTE = "192.168.1.79"
+PORT = "5003"
+
+SERVER_ENDPOINT = f'https://{REMOTE}:{PORT}'
 
 def send_request():
     try:
-        response = requests.get(f'{server_url}/api/hello')
+        response = requests.get(f'{SERVER_ENDPOINT}/api/hello')
         if response.status_code == 200:
             print('Server Response:', response.text)
         else:
