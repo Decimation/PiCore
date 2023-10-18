@@ -33,17 +33,24 @@ window: PySimpleGUI.Window = None
 
 
 def req(method, url, data=None):
-    re = rq.request(method, url, data=data)
+    url2 = f'http://{HOST}:{PORT}/{url}'
+    print(url2)
+    re = rq.request(method, url2, data=data)
+    print(re)
     output = re.content.decode('utf-8').strip()
     return output
 
 
+HOST = "192.168.1.79"
+PORT = '60900'
+
+
 def play(b):
-    return req('POST', 'http://localhost:60900/Play', data=b)
+    return req('POST', 'Play', data=b)
 
 
 def stop(b):
-    return req('POST', 'http://localhost:60900/Stop', data=b)
+    return req('POST', f'Stop', data=b)
 
 
 def get_snds(values):
@@ -53,13 +60,12 @@ def get_snds(values):
 
 
 def periodic_task():
-    global window
-    global output_2
     while True:
         # Perform the desired action
-        re = req('GET', 'http://localhost:60900/Status')
-        print(re)
-        window[output_2].update(re)
+        re = req('GET', f'Status')
+        if re:
+            print(re)
+            window[output_2].update(re)
         # Adjust the sleep duration based on your specific interval
         time.sleep(1.5)
 
@@ -75,7 +81,7 @@ timer_thread.daemon = True
 
 
 def sounds():
-    re = req('GET', 'http://localhost:60900/List')
+    re = req('GET', 'List')
     rg = re.split('\r\n')
     return rg
 
@@ -84,7 +90,6 @@ g_sounds = sounds()
 
 
 def update_output1(x):
-    global window
     window[output_].update(x.result())
     time.sleep(3)
     window[output_].update('...')
@@ -93,8 +98,9 @@ def update_output1(x):
 def main():
     global window
     global g_sounds
+    global timer_thread
 
-    listbox = sg.Listbox(values=g_sounds, size=(50, 35), key='lb', select_mode=sg.SELECT_MODE_MULTIPLE,
+    listbox = sg.Listbox(values=g_sounds, size=(50, 20), key='lb', select_mode=sg.SELECT_MODE_MULTIPLE,
                          enable_events=True)
     layout = [
         # map(lambda x: sg.Button(x), rg),
