@@ -2,15 +2,14 @@ from os import listdir
 import os
 from os.path import isfile, join
 
-PORT: int = 5003
+# PORT: int = 5003
 
-endpoint_actions_map = {
-    'test': 'api/test',
-    'swap': 'api/swap'
-}
+PORT: int = 60900
 
 SC_OK: int = 200
-REMOTE = "192.168.1.79"
+# REMOTE = "192.168.1.79"
+REMOTE = "localhost"
+
 SERVER_ENDPOINT = f'http://{REMOTE}:{PORT}'
 
 

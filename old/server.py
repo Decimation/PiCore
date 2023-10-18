@@ -1,9 +1,8 @@
-import os
 import subprocess
 from os import *
 from flask import Flask, request
 from flask import Response
-from picore import *
+from old.picore import *
 
 import pyaudio
 import wave

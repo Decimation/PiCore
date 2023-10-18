@@ -1,7 +1,4 @@
-import requests
 import argparse
-import os
-from picore import *
 
 # Copy-Item .\cli_client.py C:\Users\Deci\Desktop\RPi\ -Force
 
